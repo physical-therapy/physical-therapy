@@ -1,6 +1,7 @@
-package physicaltherapy.entity
+package physicaltherapy.entity.user
 
 import jakarta.persistence.*
+import physicaltherapy.entity.BaseEntity
 
 @Entity
 internal class UserEntity(

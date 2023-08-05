@@ -1,0 +1,10 @@
+### 유저 생성
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "test1"
+}
+
+### 유저 조회
+GET http://localhost:8080/users/1
