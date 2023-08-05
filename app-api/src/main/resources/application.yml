@@ -1,0 +1,21 @@
+spring:
+  application:
+    name:
+  profiles:
+    active: local # default로는 local이 실행되도록한다.
+
+  config:
+    import:
+      - logging.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
