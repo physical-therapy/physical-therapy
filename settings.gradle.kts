@@ -5,6 +5,7 @@ include(
     "core",
     "app-api",
     "external",
+    "infra:db",
 )
 
 pluginManagement {
