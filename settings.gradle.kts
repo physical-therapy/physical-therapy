@@ -4,7 +4,8 @@ include(
     "common:logging",
     "core",
     "app-api",
-    "external",
+    "external:common-client",
+    "external:slack-client",
     "infra:db",
 )
 

@@ -1,0 +1,27 @@
+feign:
+  httpclient:
+    disable-ssl-validation: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: FULL
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: BASIC
