@@ -66,6 +66,8 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 //        testImplementation("org.springframework.security:spring-security-test")
         testImplementation("io.kotest:kotest-assertions-core-jvm:5.6.2")
+        testImplementation("io.mockk:mockk:1.12.0")
+        testImplementation("com.ninja-squad:springmockk:3.0.1")
     }
 
     // 모든 sub module들이 bootJar를 필요로하지 않음 (필요한 경우에는 해당 module만 따로 설정)
