@@ -3,6 +3,7 @@ ENV PROFILE=local
 ENV TZ Asia/Seoul
 WORKDIR /app
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone #Set TimeZone
+RUN echo ${PWD} && ls -lR
 COPY ./build/libs/physicaltheraphy-app-api.jar app-api.jar
 ARG DD_VERSION=default
 ENV DD_VERSION=$DD_VERSION
