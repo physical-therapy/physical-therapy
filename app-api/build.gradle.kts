@@ -1,5 +1,11 @@
-tasks.getByName("bootJar") {
+//tasks.getByName("bootJar") {
+//    enabled = true
+//}
+
+tasks.bootJar {
     enabled = true
+    archiveFileName = "app-api.jar"
+    mainClass.set("physicaltherapy.AppApiSpringApplicationKt")
 }
 
 tasks.getByName("jar") {
