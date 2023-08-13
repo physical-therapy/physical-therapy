@@ -20,7 +20,7 @@ dependencies {
 
     // querydsl 설정
     implementation("com.querydsl:querydsl-jpa")
-    kapt("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jpa")
+    kapt("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
     kapt("jakarta.persistence:jakarta.persistence-api")
     // javax 어노테이션 에러로 인해 추가
     // https://blog.leocat.kr/notes/2021/03/19/gradle-fix-no-class-def-found-error-entity-generated
