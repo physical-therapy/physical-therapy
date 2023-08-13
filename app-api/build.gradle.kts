@@ -4,7 +4,7 @@
 
 tasks.bootJar {
     enabled = true
-    archiveFileName = "physicaltheraphy-app-api.jar"
+    archiveFileName = "app-api.jar"
     mainClass.set("physicaltherapy.AppApiSpringApplicationKt")
 }
 
