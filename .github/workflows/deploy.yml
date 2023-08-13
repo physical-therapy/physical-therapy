@@ -19,7 +19,7 @@ permissions:
 jobs:
 
   build-jar:
-    runs-on: ubuntu-latest-8-cores-02
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
