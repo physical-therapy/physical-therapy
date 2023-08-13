@@ -8,7 +8,6 @@ ARG DD_VERSION=default
 ENV DD_VERSION=$DD_VERSION
 CMD [ \
   "java", \
-  "-javaagent:dd-java-agent.jar", \
   "-Dserver.port=8080", \
   "-Dspring.profiles.active=${PROFILE}",\
   "-XX:+UseZGC", \
