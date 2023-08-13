@@ -4,15 +4,15 @@ ENV TZ Asia/Seoul
 WORKDIR /app
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone #Set TimeZone
 COPY build/libs/app-api.jar app-api.jar
-COPY dd-java-agent.jar dd-java-agent.jar
 ARG DD_VERSION=default
 ENV DD_VERSION=$DD_VERSION
 CMD [ \
   "java", \
+  "-javaagent:dd-java-agent.jar", \
   "-Dserver.port=8080", \
   "-Dspring.profiles.active=${PROFILE}",\
   "-XX:+UseZGC", \
-  "-XX:+DisableExplicitGC",
+  "-XX:+DisableExplicitGC", \
   "-verbose:gc", \
   "-XX:+PrintGCDetails", \
   "-jar", \
