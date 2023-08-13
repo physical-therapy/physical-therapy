@@ -35,6 +35,12 @@ jobs:
 #        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
         run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
 
+      - name: Cache PhysicalTheraphy build directory
+        uses: actions/cache@v3
+        with:
+          path: ./
+          key: ${{ runner.os }}-physicaltheraphy-build-cache-${{ steps.short-sha.outputs.sha }}
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -65,6 +71,12 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Restore Gradle cache directory
+      uses: actions/cache@v3
+      with:
+        path: ./
+        key: ${{ runner.os }}-physicaltheraphy-build-cache-${{ steps.short-sha.outputs.sha }}
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
