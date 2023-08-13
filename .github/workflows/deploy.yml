@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: physical-theraphy-ecr-prod
+#  ECR_REPOSITORY: physical-theraphy-ecr-prod
   ECS_SERVICE: physical-theraphy-service
   ECS_CLUSTER: physical-theraphy-ecs-cluster-prod
   ECS_TASK_DEFINITION: physical-theraphy-task
@@ -20,7 +20,18 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    needs:
+      - build-jar
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [ app-api ] # 추후 배포할 서비스가 늘어나면 여기에 추가하면 됌
+        environment: [ prod ]
+
+    environment: ${{ matrix.service }}-${{ matrix.environment }}
+
+    env:
+      ECR_REPOSITORY: physicaltherapy-${{ matrix.service }}-${{ matrix.environment }}
 
     steps:
     - name: Checkout
@@ -75,3 +86,5 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
+
+# ERROR: failed to solve: failed to read dockerfile: open /var/lib/docker/tmp/buildkit-mount103900236/Dockerfile: no such file or directory
