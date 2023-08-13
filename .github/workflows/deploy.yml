@@ -32,7 +32,8 @@ jobs:
           cache: 'gradle'
 
       - name: build Jar
-        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
+#        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
+        run: ./gradlew bootJar -Dorg.gradle.jvmargs=-Xmx4g
 
   deploy:
     name: Deploy
