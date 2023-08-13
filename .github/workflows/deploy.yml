@@ -17,6 +17,23 @@ permissions:
   contents: read
 
 jobs:
+
+  build-jar:
+    runs-on: ubuntu-latest-8-cores-02
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: build Jar
+        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -47,16 +64,6 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-      
-    - name: Install JDK 17
-      uses: actions/setup-java@v3.12.0
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'gradle'
-
-    - name: Gradle Build Action
-      run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -86,5 +93,3 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
-
-# ERROR: failed to solve: failed to read dockerfile: open /var/lib/docker/tmp/buildkit-mount103900236/Dockerfile: no such file or directory
