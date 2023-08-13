@@ -81,7 +81,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }} # ECR_REGISTRY >> 813279486043.dkr.ecr.ap-northeast-2.amazonaws.com <-- 요 주소를 직접 밖아야할까...?
         IMAGE_TAG: ${{ github.sha }}
         SERVICE_TAG: ${{ matrix.service }}
       run: |
@@ -92,13 +92,20 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.build-image.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#        container-name: ${{ env.CONTAINER_NAME }}
+#        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Download Task Definition Template
+      run: |
+        aws ecs describe-task-definition \
+          --task-definition $ \
+          --query taskDefinition \
+          > task-definition.json
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
