@@ -103,7 +103,7 @@ jobs:
     - name: Download Task Definition Template
       run: |
         aws ecs describe-task-definition \
-          --task-definition ${{ env.TASK_DEFINITION_NAME }} \
+          --task-definition ${{ env.ECS_TASK_DEFINITION }} \
           --query taskDefinition \
           > task-definition.json
 
