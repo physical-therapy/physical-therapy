@@ -103,7 +103,7 @@ jobs:
     - name: Download Task Definition Template
       run: |
         aws ecs describe-task-definition \
-          --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+          --task_definition ${{ env.ECS_TASK_DEFINITION }} \
           --query taskDefinition \
           > task_definition.json
 
@@ -113,7 +113,7 @@ jobs:
       with:
         task-definition: task_definition.json
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ steps.build-image.outputs.image }}정
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
