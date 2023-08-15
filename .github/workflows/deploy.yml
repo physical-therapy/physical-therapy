@@ -11,7 +11,7 @@ env:
   ECS_CLUSTER: physical-theraphy-ecs-cluster-prod
   ECS_TASK_DEFINITION: physical-theraphy-task
   
-  CONTAINER_NAME: physical-theraphy-container
+  CONTAINER_NAME: physicaltherapy-app-api-prod
 
 permissions:
   contents: read
