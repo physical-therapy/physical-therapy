@@ -7,7 +7,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
 #  ECR_REPOSITORY: physical-theraphy-ecr-prod
-  ECS_SERVICE: physical-theraphy-service
+  ECS_SERVICE: physical-theraphy-app-service
   ECS_CLUSTER: physical-theraphy-ecs-cluster-prod
   ECS_TASK_DEFINITION: physical-theraphy-task
   
