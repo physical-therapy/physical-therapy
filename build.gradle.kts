@@ -21,10 +21,6 @@ repositories {
     mavenCentral()
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
 val projectGroup: String by project
 val applicationVersion: String by project
 
@@ -80,10 +76,11 @@ subprojects {
     }
 }
 
+val javaVersion: String by project
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+        jvmTarget = javaVersion
     }
 }
 
