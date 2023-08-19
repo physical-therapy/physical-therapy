@@ -8,7 +8,4 @@ class HealthCheckController {
 
     @GetMapping("/health")
     fun checkHealth(): String = "OK"
-
-    @GetMapping("/health2")
-    fun checkHealthV2(): String = "OK"
 }
