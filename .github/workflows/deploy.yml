@@ -45,11 +45,11 @@
 #      - name: build Jar
 #        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
 #
-#      - name: Cache PhysicalTheraphy build directory
+#      - name: Cache physicaltherapy build directory
 #        uses: actions/cache@v3
 #        with:
 #          path: ./
-#          key: ${{ runner.os }}-physicaltheraphy-build-cache-${{ steps.short-sha.outputs.sha }}
+#          key: ${{ runner.os }}-physicaltherapy-build-cache-${{ steps.short-sha.outputs.sha }}
 #
 #  deploy:
 #    name: Deploy
@@ -94,7 +94,7 @@
 #      uses: actions/cache@v3
 #      with:
 #        path: ./
-#        key: ${{ runner.os }}-physicaltheraphy-build-cache-${{ steps.short-sha.outputs.sha }}
+#        key: ${{ runner.os }}-physicaltherapy-build-cache-${{ steps.short-sha.outputs.sha }}
 #
 #    - name: Build, tag, and push image to Amazon ECR
 #      id: build-image
