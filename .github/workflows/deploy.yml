@@ -10,7 +10,6 @@ concurrency:
 
 env:
   AWS_REGION: ap-northeast-2
-#  ECR_REPOSITORY: physical-theraphy-ecr-prod
   ECS_SERVICE: physical-theraphy-app-service
   ECS_CLUSTER: physical-theraphy-ecs-cluster-prod
   ECS_TASK_DEFINITION: physical-theraphy-task
@@ -100,7 +99,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }} # ECR_REGISTRY >> 813279486043.dkr.ecr.ap-northeast-2.amazonaws.com <-- 요 주소를 직접 밖아야할까...?
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ steps.short-sha.outputs.sha }}
         SERVICE_TAG: ${{ matrix.service }}
       run: |
@@ -116,14 +115,6 @@ jobs:
       with:
         path: ./
         key: ${{ runner.os }}-coreserviceorigin-build-cache-${{ steps.short-sha.outputs.sha }}
-
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#        container-name: ${{ env.CONTAINER_NAME }}
-#        image: ${{ steps.build-image.outputs.image }}
 
     - name: Download Task Definition Template
       run: |
