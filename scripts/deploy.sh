@@ -3,8 +3,8 @@
 REPOSITORY=/home/ec2-user/physical-therapy-app-api
 cd $REPOSITORY
 
-APP_NAME=physical-therapy-app-api
-JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
+APP_NAME=app-api
+JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'app-api.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 
 CURRENT_PID=$(pgrep -f $APP_NAME)
