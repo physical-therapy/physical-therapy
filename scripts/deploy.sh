@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ubuntu/physical-therapy-app-api
+REPOSITORY=/home/ec2-user/physical-therapy-app-api
 cd $REPOSITORY
 
 APP_NAME=physical-therapy-app-api
