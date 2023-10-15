@@ -20,3 +20,6 @@ fi
 
 echo "> Deploy - $JAR_PATH "
 nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
+
+# Option  (prod 환경으로 실행하게 될 때, 이 옵션으로 변경해주기!)
+# nohup java -jar $JAR_PATH --spring.profiles.active=prod > /dev/null 2> /dev/null < /dev/null &
