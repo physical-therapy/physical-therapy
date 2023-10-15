@@ -3,13 +3,13 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/physical-therapy-app-api
+    destination: /home/ec2-user/physical-therapy-app-api
 permissions:
-  - object: /home/ubuntu/physical-therapy-app-api/
-    owner: ubuntu
-    group: ubuntu
+  - object: /home/ec2-user/physical-therapy-app-api/
+    owner: ec2-user
+    group: ec2-user
 hooks:
   AfterInstall:
     - location: scripts/deploy.sh
       timeout: 60
-      runas: ubuntu
+      runas: ec2-user
