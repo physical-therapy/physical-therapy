@@ -1,0 +1,137 @@
+name: Deploy to Amazon EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: physical-therapy-s3
+
+permissions:
+  contents: read
+
+jobs:
+
+  build-jar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Calculate short sha
+        id: short-sha
+        # You may pin to the exact commit or the version.
+        uses: benjlevesque/short-sha@v1.2
+        with:
+          # length of the sha1
+          length: 7
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: build Jar
+        run: ./gradlew bootJar --build-cache -Dorg.gradle.jvmargs=-Xmx4g
+
+      - name: Cache physicaltherapy build directory
+        uses: actions/cache@v3
+        with:
+          path: ./
+          key: ${{ runner.os }}-physicaltherapy-build-cache-${{ steps.short-sha.outputs.sha }}
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs:
+      - build-jar
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [ app-api ] # 추후 배포할 서비스가 늘어나면 여기에 추가하면 됌
+        environment: [ prod ]
+
+    environment: ${{ matrix.service }}-${{ matrix.environment }}
+
+    env:
+      PROJECT_NAME: physicaltherapy-${{ matrix.service }}-${{ matrix.environment }}
+      CODE_DEPLOY_APP_NAME: physica-therapy-cicd
+      DEPLOYMENT_GROUP_NAME: physical-therapy-deploy
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Calculate short sha
+      id: short-sha
+      # You may pin to the exact commit or the version.
+      uses: benjlevesque/short-sha@v1.2
+      with:
+        # length of the sha1
+        length: 7
+
+#    - name: Make Zip File   # TODO: 아래의 방식으로 Try 해본 뒤, 안되면 원복
+#      run: zip -qq -r ./$GITHUB_SHA.zip .
+#      shell: bash
+
+    - name: Restore Gradle cache directory
+      uses: actions/cache@v3
+      with:
+        path: ./
+        key: ${{ runner.os }}-physicaltherapy-build-cache-${{ steps.short-sha.outputs.sha }}
+
+    - name: Make Zip File
+      run: zip -qq -r ./${{ steps.short-sha.outputs.sha }}.zip .
+      shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./${{ steps.short-sha.outputs.sha }}.zip s3://${{ env.S3_BUCKET_NAME }}/$PROJECT_NAME/${{ steps.short-sha.outputs.sha }}.zip
+
+    - name: Code Deploy To EC2 instance
+      run: aws deploy create-deployment
+        --application-name $CODE_DEPLOY_APP_NAME
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name $DEPLOYMENT_GROUP_NAME
+        --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=$PROJECT_NAME/${{ steps.short-sha.outputs.sha }}.zip
+
+
+#    - name: Restore Gradle cache directory
+#      uses: actions/cache@v3
+#      with:
+#        path: ./
+#        key: ${{ runner.os }}-physicaltherapy-build-cache-${{ steps.short-sha.outputs.sha }}
+#
+#    - name: Build, tag, and push image to Amazon ECR
+#      id: build-image
+#      env:
+#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        IMAGE_TAG: ${{ steps.short-sha.outputs.sha }}
+#        SERVICE_TAG: ${{ matrix.service }}
+#      run: |
+#        # Build a docker container and
+#        # push it to ECR so that it can
+#        # be deployed to ECS.
+#        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $SERVICE_TAG
+#        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Restore Gradle cache directory
+      uses: actions/cache@v3
+      with:
+        path: ./
+        key: ${{ runner.os }}-coreserviceorigin-build-cache-${{ steps.short-sha.outputs.sha }}
+
