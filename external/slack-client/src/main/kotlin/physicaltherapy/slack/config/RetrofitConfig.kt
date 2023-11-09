@@ -1,9 +1,9 @@
 package physicaltherapy.slack.config
 
-import com.habin.example.okhttpslackdemo.retrofit.client.SlackApiClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.util.ResourceUtils.toURL
+import physicaltherapy.slack.client.SlackApiClient
 import physicaltherapy.slack.util.RetrofitUtils.createRetrofit
 
 @Configuration
