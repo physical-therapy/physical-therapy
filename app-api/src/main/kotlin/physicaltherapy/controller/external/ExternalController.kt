@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import physicaltherapy.slack.client.SlackApiClient
 import physicaltherapy.slack.dto.PostMessageResponse
-import retrofit2.Response
 
 @RestController
 class ExternalController(
@@ -16,8 +15,8 @@ class ExternalController(
     fun addUser(
         @RequestParam("channel") channel: String,
         @RequestParam("text") text: String
-    ): Response<PostMessageResponse> {
-        return slackApiClient.postMessage(channel, text).execute()
+    ): PostMessageResponse {
+        return slackApiClient.postMessage(channel, text).execute().body()!!
     }
 
 }

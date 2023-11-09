@@ -8,3 +8,6 @@ Content-Type: application/json
 
 ### 유저 조회
 GET http://localhost:8080/users/1
+
+### 슬랙 메시지 전송
+POST http://localhost:8080/external/post-message?channel=test-channel&text=test-message
