@@ -15,6 +15,7 @@ tasks.getByName("jar") {
 dependencies {
     implementation(project(":core"))
     implementation(project(":common:logging"))
+    implementation(project(":external:slack-client"))
     runtimeOnly(project(":infra:db"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")

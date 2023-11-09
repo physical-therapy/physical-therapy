@@ -15,7 +15,7 @@ class RetrofitConfig {
     }
 
     @Bean
-    fun slackApiClient() = toURL(BASE_URL)
+    fun slackApiClient(): SlackApiClient = toURL(BASE_URL)
         .createRetrofit(ACCESS_TOKEN)
         .create(SlackApiClient::class.java)
 
