@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface SlackApiClient {
 
-    @POST("/chat.postMessage")
+    @POST("chat.postMessage")
     fun postMessage(
         @Query("channel") channel: String,
         @Query("text") text: String
