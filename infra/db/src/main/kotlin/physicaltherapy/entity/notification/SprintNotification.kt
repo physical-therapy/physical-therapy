@@ -23,7 +23,7 @@ internal class SprintNotification(
     @Column(name = "content", nullable = false)
     val content: String,
 
-    @Column(name = "reaction_count")
+    @Column(name = "reaction_count", nullable = false)
     private var reactionCount: Int = 0,
 
     @Enumerated(EnumType.STRING)
