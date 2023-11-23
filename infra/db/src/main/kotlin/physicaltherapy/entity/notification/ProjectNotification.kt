@@ -4,6 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import physicaltherapy.entity.BaseEntity
@@ -15,7 +16,7 @@ internal class ProjectNotification(
     @Column(name = "project_id", nullable = false)
     val projectId: Long,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_channel_id", nullable = false)
     val notificationChannel: NotificationChannel,
 
