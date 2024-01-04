@@ -1,5 +1,7 @@
 package physicaltherapy.slack.client
 
+import physicaltherapy.slack.dto.PostMessageResponse
+import physicaltherapy.slack.dto.ScheduleMessageListResponse
 import physicaltherapy.slack.dto.ScheduleMessageResponse
 import retrofit2.Call
 import retrofit2.http.POST
@@ -36,7 +38,7 @@ interface SlackApiClient {
     @POST("chat.scheduledMessages.list")
     fun listScheduledMessages(
         @Query("channel") channel: String,
-    ): Call<PostMessageResponse>
+    ): Call<ScheduleMessageListResponse>
 
     /**
      * @see <a href="https://api.slack.com/methods/conversations.create">Conversations Create</a>
