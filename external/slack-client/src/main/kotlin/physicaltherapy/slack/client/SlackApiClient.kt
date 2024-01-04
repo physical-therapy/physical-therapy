@@ -1,7 +1,5 @@
 package physicaltherapy.slack.client
 
-import org.springframework.web.bind.annotation.PostMapping
-import physicaltherapy.slack.dto.PostMessageResponse
 import physicaltherapy.slack.dto.ScheduleMessageResponse
 import retrofit2.Call
 import retrofit2.http.POST

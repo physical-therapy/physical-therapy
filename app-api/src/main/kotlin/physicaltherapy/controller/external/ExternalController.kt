@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import physicaltherapy.slack.client.SlackApiClient
 import physicaltherapy.slack.dto.PostMessageResponse
+import physicaltherapy.slack.dto.ScheduleMessageListResponse
 import physicaltherapy.slack.dto.ScheduleMessageResponse
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 @RestController
@@ -37,7 +35,7 @@ class ExternalController(
     @PostMapping("/external/list-scheduled-messages")
     fun listScheduledMessages(
         @RequestParam("channel") channel: String,
-    ): PostMessageResponse {
+    ): ScheduleMessageListResponse {
         return slackApiClient.listScheduledMessages(channel).execute().body()!!
     }
 

@@ -1,55 +1,86 @@
 package physicaltherapy.slack.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class PostMessageResponse(
+    @JsonProperty("channel")
     val channel: String?,
+    @JsonProperty("error")
+    val error: Any?,
+    @JsonProperty("message")
     val message: Message?,
-    val ok: Boolean,
-    val ts: String?,
-    val error: String?
+    @JsonProperty("ok")
+    val ok: Boolean?,
+    @JsonProperty("ts")
+    val ts: String?
 ) {
     data class Message(
-        val app_id: String,
-        val blocks: List<Block>,
-        val bot_id: String,
-        val bot_profile: BotProfile,
-        val team: String,
-        val text: String,
-        val ts: String,
-        val type: String,
-        val user: String
+        @JsonProperty("app_id")
+        val appId: String?,
+        @JsonProperty("blocks")
+        val blocks: List<Block?>?,
+        @JsonProperty("bot_id")
+        val botId: String?,
+        @JsonProperty("bot_profile")
+        val botProfile: BotProfile?,
+        @JsonProperty("team")
+        val team: String?,
+        @JsonProperty("text")
+        val text: String?,
+        @JsonProperty("ts")
+        val ts: String?,
+        @JsonProperty("type")
+        val type: String?,
+        @JsonProperty("user")
+        val user: String?
     ) {
         data class Block(
-            val block_id: String,
-            val elements: List<Element>,
-            val type: String
+            @JsonProperty("block_id")
+            val blockId: String?,
+            @JsonProperty("elements")
+            val elements: List<Element?>?,
+            @JsonProperty("type")
+            val type: String?
         ) {
             data class Element(
-                val elements: List<Element>,
-                val type: String
+                @JsonProperty("elements")
+                val elements: List<Element?>?,
+                @JsonProperty("type")
+                val type: String?
             ) {
                 data class Element(
-                    val text: String,
-                    val type: String
+                    @JsonProperty("text")
+                    val text: String?,
+                    @JsonProperty("type")
+                    val type: String?
                 )
             }
         }
 
         data class BotProfile(
-            val app_id: String,
-            val deleted: Boolean,
-            val icons: Icons,
-            val id: String,
-            val name: String,
-            val team_id: String,
-            val updated: Int
+            @JsonProperty("app_id")
+            val appId: String?,
+            @JsonProperty("deleted")
+            val deleted: Boolean?,
+            @JsonProperty("icons")
+            val icons: Icons?,
+            @JsonProperty("id")
+            val id: String?,
+            @JsonProperty("name")
+            val name: String?,
+            @JsonProperty("team_id")
+            val teamId: String?,
+            @JsonProperty("updated")
+            val updated: Int?
         ) {
             data class Icons(
-                val image_36: String,
-                val image_48: String,
-                val image_72: String
+                @JsonProperty("image_36")
+                val image36: String?,
+                @JsonProperty("image_48")
+                val image48: String?,
+                @JsonProperty("image_72")
+                val image72: String?
             )
         }
     }
