@@ -1,5 +1,6 @@
 package physicaltherapy.project
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Project(
@@ -8,7 +9,7 @@ data class Project(
     private val recruitmentEndDate: LocalDateTime,
     private val master: String,
     private val cycle: Int,
-    private val startDate: LocalDateTime,
-    private val endDate: LocalDateTime,
+    private val startDate: LocalDate,
+    private val endDate: LocalDate,
 ) {
 }
