@@ -1,5 +1,10 @@
 package physicaltherapy.entity.project
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+import physicaltherapy.project.ProjectRepository
 
-internal interface ProjectEntityRepository: JpaRepository<ProjectEntity, Long>
+@Repository
+internal class ProjectEntityRepository(
+    private val projectJpaRepository: ProjectJpaRepository
+): ProjectRepository {
+}
