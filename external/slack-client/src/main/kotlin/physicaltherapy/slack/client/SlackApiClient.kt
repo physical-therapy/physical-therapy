@@ -1,16 +1,61 @@
 package physicaltherapy.slack.client
 
+import org.springframework.web.bind.annotation.PostMapping
 import physicaltherapy.slack.dto.PostMessageResponse
+import physicaltherapy.slack.dto.ScheduleMessageResponse
 import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+/**
+ * @see <a href="https://api.slack.com/web">Slack Web API</a>
+ */
 interface SlackApiClient {
 
+    /**
+     * @see <a href="https://api.slack.com/methods/chat.postMessage">Chat Post Message</a>
+     */
     @POST("chat.postMessage")
     fun postMessage(
         @Query("channel") channel: String,
+        @Query("thread_ts") threadTs: String?,
         @Query("text") text: String
+    ): Call<PostMessageResponse>
+
+    /**
+     * @see <a href="https://api.slack.com/methods/chat.scheduleMessage">Chat Schedule Message</a>
+     */
+    @POST("chat.scheduleMessage")
+    fun scheduleMessage(
+        @Query("channel") channel: String,
+        @Query("post_at") postAt: String,
+        @Query("text") text: String
+    ): Call<ScheduleMessageResponse>
+
+    /**
+     * @see <a href="https://api.slack.com/methods/chat.scheduledMessages.list">Chat Scheduled Messages List</a>
+     */
+    @POST("chat.scheduledMessages.list")
+    fun listScheduledMessages(
+        @Query("channel") channel: String,
+    ): Call<PostMessageResponse>
+
+    /**
+     * @see <a href="https://api.slack.com/methods/conversations.create">Conversations Create</a>
+     */
+    @POST("conversations.create")
+    fun createConversation(
+        @Query("name") name: String,
+        @Query("is_private") isPrivate: Boolean = true,
+    ): Call<PostMessageResponse>
+
+    /**
+     * @see <a href="https://api.slack.com/methods/conversations.invite">Conversations Invite</a>
+     */
+    @POST("conversations.invite")
+    fun inviteToConversation(
+        @Query("channel") channel: String,
+        @Query("users") users: String,
     ): Call<PostMessageResponse>
 
 }
