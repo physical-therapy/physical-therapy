@@ -3,9 +3,10 @@ package physicaltherapy.entity.project
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import physicaltherapy.entity.BaseEntity
+import java.time.LocalDate
 import java.time.LocalDateTime
 
-private val DEFAULT_END_DATE: LocalDateTime = LocalDateTime.of(2999, 12, 31, 23,59,59)
+private val DEFAULT_END_DATE: LocalDate = LocalDate.of(2999, 12, 31)
 
 @Entity
 internal class ProjectEntity(
@@ -25,8 +26,8 @@ internal class ProjectEntity(
         var cycle: Int,
 
         @Column(name = "start_date", nullable = false)
-        val startDate: LocalDateTime,
+        val startDate: LocalDate,
 
         @Column(name = "end_date", nullable = false)
-        val endDate: LocalDateTime = DEFAULT_END_DATE,
+        val endDate: LocalDate = DEFAULT_END_DATE,
 ): BaseEntity()
