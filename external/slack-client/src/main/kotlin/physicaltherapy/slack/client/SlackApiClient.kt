@@ -1,8 +1,6 @@
 package physicaltherapy.slack.client
 
-import physicaltherapy.slack.dto.PostMessageResponse
-import physicaltherapy.slack.dto.ScheduleMessageListResponse
-import physicaltherapy.slack.dto.ScheduleMessageResponse
+import physicaltherapy.slack.dto.*
 import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -47,7 +45,7 @@ interface SlackApiClient {
     fun createConversation(
         @Query("name") name: String,
         @Query("is_private") isPrivate: Boolean = true,
-    ): Call<PostMessageResponse>
+    ): Call<CreateConversationResponse>
 
     /**
      * @see <a href="https://api.slack.com/methods/conversations.invite">Conversations Invite</a>
@@ -56,6 +54,6 @@ interface SlackApiClient {
     fun inviteToConversation(
         @Query("channel") channel: String,
         @Query("users") users: String,
-    ): Call<PostMessageResponse>
+    ): Call<InviteConversationResponse>
 
 }

@@ -4,9 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import physicaltherapy.slack.client.SlackApiClient
-import physicaltherapy.slack.dto.PostMessageResponse
-import physicaltherapy.slack.dto.ScheduleMessageListResponse
-import physicaltherapy.slack.dto.ScheduleMessageResponse
+import physicaltherapy.slack.dto.*
 import java.time.ZonedDateTime
 
 @RestController
@@ -43,15 +41,15 @@ class ExternalController(
     fun createConversation(
         @RequestParam("name") name: String,
         @RequestParam("is_private") isPrivate: Boolean = true,
-    ): PostMessageResponse {
+    ): CreateConversationResponse {
         return slackApiClient.createConversation(name, isPrivate).execute().body()!!
     }
 
-    @PostMapping("/external/invite-to-conversation")
+    @PostMapping("users")
     fun inviteToConversation(
         @RequestParam("channel") channel: String,
         @RequestParam("users") users: String,
-    ): PostMessageResponse {
+    ): InviteConversationResponse {
         return slackApiClient.inviteToConversation(channel, users).execute().body()!!
     }
 

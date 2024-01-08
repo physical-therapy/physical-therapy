@@ -11,7 +11,7 @@ data class PostMessageResponse(
     @JsonProperty("message")
     val message: Message?,
     @JsonProperty("ok")
-    val ok: Boolean?,
+    val ok: Boolean,
     @JsonProperty("ts")
     val ts: String?
 ) {
