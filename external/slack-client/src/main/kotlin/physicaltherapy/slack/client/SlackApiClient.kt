@@ -62,4 +62,7 @@ interface SlackApiClient {
     @POST("conversations.list")
     fun listConversations(): Call<ConversationListResponse>
 
+    @POST("users.list")
+    fun listUsers(): Call<UserListResponse>
+
 }
