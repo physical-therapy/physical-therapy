@@ -1,4 +1,4 @@
-package physicaltherapy.controller.external
+package physicaltherapy.external.controller
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam

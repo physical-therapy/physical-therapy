@@ -8,7 +8,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import physicaltherapy.entity.BaseEntity
-import physicaltherapy.entity.notificationChannel.NotificationChannel
+import physicaltherapy.entity.notificationChannel.NotificationChannelEntity
 
 @Entity
 internal class ProjectNotification(
@@ -18,7 +18,7 @@ internal class ProjectNotification(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_channel_id", nullable = false)
-    val notificationChannel: NotificationChannel,
+    val notificationChannelEntity: NotificationChannelEntity,
 
     @Column(name = "content", nullable = false)
     val content: String,
@@ -30,4 +30,4 @@ internal class ProjectNotification(
     @Column(name = "notification_type", nullable = false)
     val type: NotificationType,
 
-) : BaseEntity()
+    ) : BaseEntity()
