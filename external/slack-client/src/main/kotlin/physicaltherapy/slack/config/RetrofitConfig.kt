@@ -11,7 +11,7 @@ class RetrofitConfig {
 
     companion object {
         const val BASE_URL = "https://slack.com/api/"
-        const val ACCESS_TOKEN = "xoxb-5695225179764-6182948355457-iPFXlIOAv6zGxHdlhcZUXynv"
+        const val ACCESS_TOKEN = "xoxb-5695225179764-6182948355457-plRsmBbVhrowmViiulIPuWZW"
     }
 
     @Bean
