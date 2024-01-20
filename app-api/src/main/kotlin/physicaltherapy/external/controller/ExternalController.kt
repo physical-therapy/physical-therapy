@@ -45,7 +45,7 @@ class ExternalController(
         return slackApiClient.createConversation(name, isPrivate).execute().body()!!
     }
 
-    @PostMapping("users")
+    @PostMapping("/external/invite-to-conversation")
     fun inviteToConversation(
         @RequestParam("channel") channel: String,
         @RequestParam("users") users: String,

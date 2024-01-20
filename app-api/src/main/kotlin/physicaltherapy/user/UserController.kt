@@ -10,14 +10,6 @@ import physicaltherapy.user.UserService
 class UserController(
     private val userService: UserService
 ) {
-    @PostMapping("/users")
-    fun addUser(
-        @RequestBody request: NewUserRequest
-    ): NewUserResponse {
-        val newUserId = userService.add(request.name)
-        return NewUserResponse(newUserId)
-    }
-
     @GetMapping("/users/{userId}")
     fun findUser(
         @PathVariable userId: Long
