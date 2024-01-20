@@ -9,6 +9,9 @@ spring:
       - logging.yml
       - db.yml
 
+slack-api:
+  notify-channel-id: C06015L3JTY
+
 ---
 spring:
   config:
