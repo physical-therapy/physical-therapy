@@ -10,7 +10,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 class ProjectTest {
-
     @DisplayName("프로젝트 객체 생성 시, 프로젝트 이름이 비어있으면 예외를 발생시킨다")
     @ParameterizedTest
     @ValueSource(strings = [" ", "               "])
@@ -27,8 +26,10 @@ class ProjectTest {
                 recruitmentEndDate = now.plusDays(3),
                 master = "testMaster",
                 cycle = 3,
+                projectStatus = ProjectStatus.RECRUITING,
                 startDate = now.plusDays(4).toLocalDate(),
                 endDate = now.plusDays(5).toLocalDate(),
+                threadTs = "",
                 id = 1L,
             )
         }
@@ -48,10 +49,12 @@ class ProjectTest {
                 name = "king_loki",
                 description = "test Description",
                 recruitmentEndDate = now.plusDays(3),
+                projectStatus = ProjectStatus.RECRUITING,
                 master = master,
                 cycle = 3,
                 startDate = now.plusDays(4).toLocalDate(),
                 endDate = now.plusDays(5).toLocalDate(),
+                threadTs = "",
                 id = 1L,
             )
         }
@@ -71,10 +74,12 @@ class ProjectTest {
                 name = "king_habin",
                 description = "test Description",
                 recruitmentEndDate = LocalDateTime.now(),
+                projectStatus = ProjectStatus.RECRUITING,
                 master = "testMaster",
                 cycle = 0,
                 startDate = startDate,
                 endDate = endDate,
+                threadTs = "",
                 id = 1L,
             )
         }
@@ -94,10 +99,12 @@ class ProjectTest {
                 name = "king_bono",
                 description = "test Description",
                 recruitmentEndDate = LocalDateTime.now(),
+                projectStatus = ProjectStatus.RECRUITING,
                 master = "testMaster",
                 cycle = 3,
                 startDate = startDate,
                 endDate = endDate,
+                threadTs = "",
                 id = 1L,
             )
         }
@@ -117,10 +124,12 @@ class ProjectTest {
                 name = "king_bono",
                 description = "test Description",
                 recruitmentEndDate = recruitmentEndDate,
+                projectStatus = ProjectStatus.RECRUITING,
                 master = "testMaster",
                 cycle = 3,
                 startDate = startDate,
                 endDate = startDate.plusDays(2),
+                threadTs = "",
                 id = 1L,
             )
         }

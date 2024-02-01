@@ -5,11 +5,8 @@ import org.mapstruct.MappingTarget
 import physicaltherapy.config.BaseMapperConfig
 import physicaltherapy.config.GenericMapper
 import physicaltherapy.project.Project
+import physicaltherapy.project.ProjectMember
 
 @Mapper(config = BaseMapperConfig::class)
-internal interface ProjectMapper : GenericMapper<ProjectEntity, Project> {
-    fun updateThreadTs(
-        threadTs: String,
-        @MappingTarget projectEntity: ProjectEntity,
-    ): ProjectEntity
+internal interface ProjectMemberMapper : GenericMapper<ProjectMemberEntity, ProjectMember> {
 }

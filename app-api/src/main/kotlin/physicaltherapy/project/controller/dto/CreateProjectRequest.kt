@@ -26,7 +26,6 @@ data class CreateProjectRequest(
     @field:NotBlank(message = "스터디장은 필수입니다.")
     val channelName: String,
 ) {
-
     fun toProject(): Project {
         return Project(
             name = name,

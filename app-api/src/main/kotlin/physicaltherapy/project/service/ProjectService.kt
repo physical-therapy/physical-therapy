@@ -6,24 +6,25 @@ import org.springframework.stereotype.Service
 import physicaltherapy.external.service.SlackService
 import physicaltherapy.notificationChannel.NotificationChannel
 import physicaltherapy.notificationChannel.NotificationChannelWriter
+import physicaltherapy.notificationChannel.NotificationChannerReader
 import physicaltherapy.project.ProjectMember
 import physicaltherapy.project.ProjectMemberWriter
-import physicaltherapy.project.controller.dto.CreateProjectRequest
 import physicaltherapy.project.ProjectReader
 import physicaltherapy.project.ProjectWriter
+import physicaltherapy.project.controller.dto.CreateProjectRequest
+import java.time.LocalDate
 
 @Service
 class ProjectService(
     private val projectReader: ProjectReader,
     private val projectWriter: ProjectWriter,
+    private val notificationChannelReader: NotificationChannerReader,
     private val notificationChannelWriter: NotificationChannelWriter,
     private val slackService: SlackService,
     private val projectMemberWriter: ProjectMemberWriter,
-
     @Value("\${slack-api.notify-channel-id}")
     private val notifyChannelId: String,
 ) {
-
     // TODO: 추후 스케줄러에서 스터디 모집 실패 시 채널 삭제하라고 관리자에게 알림 메시지 발송  (+ 스터디 종료 때)
     fun create(request: CreateProjectRequest) {
         val project = projectWriter.create(request.toProject())
@@ -46,7 +47,9 @@ class ProjectService(
          * slackApiClient#scheduleMessage --> 슬랙 예약 발송 기능 활용 방안성 고민해보기
          */
         // 최소 단위)  1. 스터디 제목, 2. 스터디 목표, 3.스터디 내용 (글자 제한...?), --> [선행조건] 스터디 모집글 템플릿 선정
-        slackService.sendMessage(notifyChannelId, "${request.name} 스터디 스터디원을 모집합니다.")
+        val sendMessageResult = slackService.sendMessage(notifyChannelId, "${request.name} 스터디 스터디원을 모집합니다.")
+
+        projectWriter.updateMessageChannelId(projectId = project.id, threadTs = sendMessageResult.ts!!)
     }
 
     /**
@@ -56,7 +59,18 @@ class ProjectService(
      */
     @Scheduled(cron = "0 0 0 * * *") // TODO: 크론식은 좀이따 바꿀 예정
     fun closeRecruitment() {
-//        val projects = projectReader.
-    }
+        val projects = projectReader.completeRecruitmentByDate(LocalDate.now())
+        projects
+            .filterNot { it.threadTs == null }
+            .forEach {
+                val channel = notificationChannelReader.findByProjectId(projectId = it.id)
+                val recruitingMessage = slackService.getReactions(channel.channelName, it.threadTs!!)
+                val users = recruitingMessage.findProjectJoinUsers()
+                val projectMembers = users
+                    .map { joinUser -> ProjectMember(projectId = it.id, userId = joinUser) }
 
+                projectMemberWriter.createAll(projectMembers)
+                slackService.inviteToChannel(channelName = channel.channelName, users = users)
+            }
+    }
 }
