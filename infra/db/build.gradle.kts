@@ -12,7 +12,7 @@ allOpen {
 }
 
 dependencies {
-    compileOnly(project(":core"))
+    implementation(project(":core"))
     // JPA 의존성을 implementation로 설정해뒀기 때문에 이 모듈을 사용하는 곳에서는 JPA에 대한 정보를 모름
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("com.h2database:h2")

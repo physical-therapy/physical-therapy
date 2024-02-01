@@ -6,25 +6,16 @@ import physicaltherapy.notificationChannel.NotificationChannelRepository
 
 @Repository
 internal class NotificationChannelEntityRepository(
-    private val notificationChannelJpaRepository: NotificationChannelJpaRepository
+    private val notificationChannelJpaRepository: NotificationChannelJpaRepository,
+    private val notificationChannelMapper: NotificationChannelMapper,
 ) : NotificationChannelRepository {
     override fun save(notificationChannel: NotificationChannel): NotificationChannel {
-        val entity = notificationChannelJpaRepository.save(parseDomainToEntity(notificationChannel))
+        val entity = notificationChannelJpaRepository.save(notificationChannelMapper.toEntity(notificationChannel))
 
-        return parseEntityToDomain(entity)
+        return notificationChannelMapper.toDto(entity)
     }
 
-    private fun parseDomainToEntity(notificationChannel: NotificationChannel): NotificationChannelEntity {
-        return NotificationChannelEntity(
-            notificationChannel.channelName,
-            notificationChannel.projectId,
-        )
-    }
-
-    private fun parseEntityToDomain(notificationChannelEntity: NotificationChannelEntity): NotificationChannel {
-        return NotificationChannel(
-            notificationChannelEntity.channelName,
-            notificationChannelEntity.projectId,
-        )
+    override fun findByProjectId(channelId: Long): NotificationChannel? {
+        return notificationChannelJpaRepository.findByProjectId(channelId)?.let(notificationChannelMapper::toDto)
     }
 }

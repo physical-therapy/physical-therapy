@@ -3,38 +3,31 @@ package physicaltherapy.entity.project
 import org.springframework.stereotype.Repository
 import physicaltherapy.project.Project
 import physicaltherapy.project.ProjectRepository
+import java.time.LocalDate
 
 @Repository
 internal class ProjectEntityRepository(
-    private val projectJpaRepository: ProjectJpaRepository
-): ProjectRepository {
+    private val projectJpaRepository: ProjectJpaRepository,
+    private val projectMapper: ProjectMapper,
+) : ProjectRepository {
     override fun save(project: Project): Project {
-        val entity = projectJpaRepository.save(parseDomainToEntity(project))
-        return parseEntityToDomain(entity)
+        val entity = projectJpaRepository.save(projectMapper.toEntity(project))
+        return projectMapper.toDto(entity)
     }
 
-    private fun parseDomainToEntity(project: Project): ProjectEntity {
-        return ProjectEntity(
-            project.name,
-            project.description,
-            project.recruitmentEndDate,
-            project.master,
-            project.cycle,
-            project.startDate,
-            project.endDate,
-        )
+    override fun getProjectByRecruitmentDate(date: LocalDate): List<Project> {
+        TODO("Not yet implemented")
     }
 
-    private fun parseEntityToDomain(projectEntity: ProjectEntity): Project {
-        return Project(
-            projectEntity.name,
-            projectEntity.description,
-            projectEntity.recruitmentEndDate,
-            projectEntity.master,
-            projectEntity.cycle,
-            projectEntity.startDate,
-            projectEntity.endDate,
-            projectEntity.id,
-        )
+    override fun updateMessageChannelId(
+        projectId: Long,
+        threadTs: String,
+    ): Project {
+        val projectEntity = projectJpaRepository.findById(projectId).orElseThrow { NoSuchElementException() }
+        projectMapper.updateThreadTs(threadTs, projectEntity)
+
+        // TODO : 영속성 전파 확인 필요 (업데이트 되는지 확인해야함)
+//        projectJpaRepository.save(projectEntity)
+        return projectMapper.toDto(projectEntity)
     }
 }

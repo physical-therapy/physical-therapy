@@ -9,7 +9,6 @@ import retrofit2.http.Query
  * @see <a href="https://api.slack.com/web">Slack Web API</a>
  */
 interface SlackApiClient {
-
     /**
      * @see <a href="https://api.slack.com/methods/chat.postMessage">Chat Post Message</a>
      */
@@ -17,7 +16,7 @@ interface SlackApiClient {
     fun postMessage(
         @Query("channel") channel: String,
         @Query("thread_ts") threadTs: String?,
-        @Query("text") text: String
+        @Query("text") text: String,
     ): Call<PostMessageResponse>
 
     /**
@@ -27,7 +26,7 @@ interface SlackApiClient {
     fun scheduleMessage(
         @Query("channel") channel: String,
         @Query("post_at") postAt: String,
-        @Query("text") text: String
+        @Query("text") text: String,
     ): Call<ScheduleMessageResponse>
 
     /**
@@ -68,4 +67,18 @@ interface SlackApiClient {
     @POST("users.list")
     fun listUsers(): Call<UserListResponse>
 
+    /**
+     * @see <a href="https://api.slack.com/methods/reactions.list">Reactions List</a>
+     */
+    @POST("reactions.list")
+    fun reactionsList(): Call<ReactionsListResponse>
+
+    /**
+     * @see <a href="https://api.slack.com/methods/reactions.get">Reactions Get</a>
+     */
+    @POST("reactions.get")
+    fun reactionsGet(
+        @Query("channel") channel: String,
+        @Query("timestamp") timestamp: String,
+    ): Call<ReactionsGetResponse>
 }

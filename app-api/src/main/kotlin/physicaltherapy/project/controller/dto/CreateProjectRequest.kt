@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import physicaltherapy.project.Project
+import physicaltherapy.project.ProjectStatus
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -25,7 +26,6 @@ data class CreateProjectRequest(
     @field:NotBlank(message = "스터디장은 필수입니다.")
     val channelName: String,
 ) {
-
     fun toProject(): Project {
         return Project(
             name = name,
@@ -33,6 +33,7 @@ data class CreateProjectRequest(
             recruitmentEndDate = recruitmentEndDate,
             master = master,
             cycle = cycle,
+            projectStatus = ProjectStatus.RECRUITING,
             startDate = startDate,
             endDate = endDate,
         )

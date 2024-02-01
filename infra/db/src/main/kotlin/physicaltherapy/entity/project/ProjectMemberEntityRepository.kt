@@ -8,12 +8,13 @@ import physicaltherapy.project.ProjectMemberRepository
 @Repository
 internal class ProjectMemberEntityRepository(
     private val projectMemberJpaRepository: ProjectMemberJpaRepository,
-    private val projectJpaRepository: ProjectJpaRepository
-): ProjectMemberRepository {
+    private val projectJpaRepository: ProjectJpaRepository,
+    private val projectMemberMapper: ProjectMemberMapper,
+) : ProjectMemberRepository {
 
     override fun save(projectMember: ProjectMember): ProjectMember {
-        val entity = projectMemberJpaRepository.save(parseDomainToEntity(projectMember))
-        return parseEntityToDomain(entity)
+        val entity = projectMemberJpaRepository.save(projectMemberMapper.toEntity(projectMember))
+        return projectMemberMapper.toDto(entity)
     }
 
     // TODO : 도메인 객체 -> Entity 변환 시, 연관관계를 맺는 Entity 객체를 어떻게 할 것인지? (특히 저장할 때!)
@@ -25,10 +26,7 @@ internal class ProjectMemberEntityRepository(
         )
     }
 
-    private fun parseEntityToDomain(entity: ProjectMemberEntity): ProjectMember {
-        return ProjectMember(
-            entity.projectEntity.id,
-            entity.userId,
-        )
+    override fun saveAll(projectMembers: List<ProjectMember>) {
+        projectMemberJpaRepository.saveAll(projectMembers.map { parseDomainToEntity(it) })
     }
 }

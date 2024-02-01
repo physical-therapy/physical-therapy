@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import physicaltherapy.external.service.SlackService
 import physicaltherapy.notificationChannel.NotificationChannelWriter
+import physicaltherapy.notificationChannel.NotificationChannerReader
 import physicaltherapy.project.ProjectMemberWriter
 import physicaltherapy.project.ProjectReader
 import physicaltherapy.project.ProjectWriter
@@ -17,12 +18,14 @@ import java.time.LocalTime
 
 @SpringBootTest
 class ProjectServiceTest {
-
     @Autowired
     private lateinit var projectReader: ProjectReader
 
     @Autowired
     private lateinit var projectWriter: ProjectWriter
+
+    @Autowired
+    private lateinit var notificationChannelReader: NotificationChannerReader
 
     @Autowired
     private lateinit var notificationChannelWriter: NotificationChannelWriter
@@ -37,30 +40,33 @@ class ProjectServiceTest {
 
     @BeforeEach
     fun setUp() {
-        this.sut = ProjectService(
-            projectReader,
-            projectWriter,
-            notificationChannelWriter,
-            slackService,
-            projectMemberWriter,
-            "test-notify-channel-id",
-        )
+        this.sut =
+            ProjectService(
+                projectReader,
+                projectWriter,
+                notificationChannelReader,
+                notificationChannelWriter,
+                slackService,
+                projectMemberWriter,
+                "test-notify-channel-id",
+            )
     }
 
     @DisplayName("프로젝트 생성")
     @Test
     fun `testInit`() {
         // given
-        val request = CreateProjectRequest(
-            "test-name",
-            "test-description",
-            LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
-            "master",
-            7,
-            LocalDate.of(2024, 1, 22),
-            LocalDate.of(2099, 1, 22),
-            "test-channel-name",
-        )
+        val request =
+            CreateProjectRequest(
+                "test-name",
+                "test-description",
+                LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
+                "master",
+                7,
+                LocalDate.of(2024, 1, 22),
+                LocalDate.of(2099, 1, 22),
+                "test-channel-name",
+            )
 
         // when // then
         assertDoesNotThrow { sut.create(request) }
@@ -70,16 +76,17 @@ class ProjectServiceTest {
     @Test
     fun testInitIfSlackChannelIsExist() {
         // given
-        val request = CreateProjectRequest(
-            "test-name",
-            "test-description",
-            LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
-            "master",
-            7,
-            LocalDate.of(2024, 1, 22),
-            LocalDate.of(2099, 1, 22),
-            "test-channel-name",
-        )
+        val request =
+            CreateProjectRequest(
+                "test-name",
+                "test-description",
+                LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
+                "master",
+                7,
+                LocalDate.of(2024, 1, 22),
+                LocalDate.of(2099, 1, 22),
+                "test-channel-name",
+            )
 
         // when
         given(slackService.isExistChannel(anyString())).willReturn(true)
@@ -93,16 +100,17 @@ class ProjectServiceTest {
     fun testInitIfCreateSlackChannelIsFail() {
         // given
         val channelName = "test-channel-name"
-        val request = CreateProjectRequest(
-            "test-name",
-            "test-description",
-            LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
-            "master",
-            7,
-            LocalDate.of(2024, 1, 22),
-            LocalDate.of(2099, 1, 22),
-            channelName,
-        )
+        val request =
+            CreateProjectRequest(
+                "test-name",
+                "test-description",
+                LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
+                "master",
+                7,
+                LocalDate.of(2024, 1, 22),
+                LocalDate.of(2099, 1, 22),
+                channelName,
+            )
 
         given(slackService.isExistChannel(channelName)).willReturn(false)
         given(slackService.createChannel(channelName)).willThrow(RuntimeException::class.java)
@@ -116,16 +124,17 @@ class ProjectServiceTest {
     fun testInitIfSendSlackMessageAfterProjectCreation() {
         // given
         val channelName = "test-channel-name"
-        val request = CreateProjectRequest(
-            "test-name",
-            "test-description",
-            LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
-            "master",
-            7,
-            LocalDate.of(2024, 1, 22),
-            LocalDate.of(2099, 1, 22),
-            channelName,
-        )
+        val request =
+            CreateProjectRequest(
+                "test-name",
+                "test-description",
+                LocalDateTime.of(LocalDate.of(2024, 1, 21), LocalTime.MIN),
+                "master",
+                7,
+                LocalDate.of(2024, 1, 22),
+                LocalDate.of(2099, 1, 22),
+                channelName,
+            )
         val notifyChannelId = "test-notify-channel-id"
 
         given(slackService.isExistChannel(channelName)).willReturn(false)

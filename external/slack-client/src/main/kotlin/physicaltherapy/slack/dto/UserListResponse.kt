@@ -1,17 +1,16 @@
 package physicaltherapy.slack.dto
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class UserListResponse(
     @JsonProperty("cache_ts")
     val cacheTs: Int?,
     @JsonProperty("members")
-    val members: List<Member?>?,
+    val members: List<Member>?,
     @JsonProperty("ok")
     val ok: Boolean?,
     @JsonProperty("response_metadata")
-    val responseMetadata: ResponseMetadata?
+    val responseMetadata: ResponseMetadata?,
 ) {
     data class Member(
         @JsonProperty("color")
@@ -51,7 +50,7 @@ data class UserListResponse(
         @JsonProperty("tz_offset")
         val tzOffset: Int?,
         @JsonProperty("updated")
-        val updated: Int?
+        val updated: Int?,
     ) {
         data class Profile(
             @JsonProperty("avatar_hash")
@@ -97,12 +96,12 @@ data class UserListResponse(
             @JsonProperty("team")
             val team: String?,
             @JsonProperty("title")
-            val title: String?
+            val title: String?,
         )
     }
 
     data class ResponseMetadata(
         @JsonProperty("next_cursor")
-        val nextCursor: String?
+        val nextCursor: String?,
     )
 }

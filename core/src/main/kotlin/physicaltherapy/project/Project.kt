@@ -9,8 +9,10 @@ data class Project(
     val recruitmentEndDate: LocalDateTime,
     val master: String,
     val cycle: Int,
+    val projectStatus: ProjectStatus,
     val startDate: LocalDate,
     val endDate: LocalDate,
+    val threadTs: String? = null,
     val id: Long = 0L,
 ) {
     init {
