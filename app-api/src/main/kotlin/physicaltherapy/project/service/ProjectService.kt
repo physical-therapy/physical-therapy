@@ -1,6 +1,7 @@
 package physicaltherapy.project.service
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import physicaltherapy.external.service.SlackService
 import physicaltherapy.notificationChannel.NotificationChannel
@@ -47,4 +48,15 @@ class ProjectService(
         // 최소 단위)  1. 스터디 제목, 2. 스터디 목표, 3.스터디 내용 (글자 제한...?), --> [선행조건] 스터디 모집글 템플릿 선정
         slackService.sendMessage(notifyChannelId, "${request.name} 스터디 스터디원을 모집합니다.")
     }
+
+    /**
+     * 모집 완료 (확정) <<
+     *  Scheduler 통해서 채널 public 전환 (채널명 unique하게 할 방법 고민)
+     *  참가자 채널로 초대
+     */
+    @Scheduled(cron = "0 0 0 * * *") // TODO: 크론식은 좀이따 바꿀 예정
+    fun closeRecruitment() {
+//        val projects = projectReader.
+    }
+
 }

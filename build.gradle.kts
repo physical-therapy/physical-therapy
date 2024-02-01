@@ -1,9 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("org.springframework.boot") apply false
     id("io.spring.dependency-management")
-    id("org.jetbrains.kotlin.kapt") apply false
+    id("org.jetbrains.kotlin.kapt")
 
     kotlin("jvm")
     kotlin("plugin.spring") apply false
@@ -58,6 +59,9 @@ subprojects {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.flywaydb:flyway-core")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+        implementation("org.mapstruct:mapstruct:1.5.5.Final")
+        kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 //        testImplementation("org.springframework.security:spring-security-test")

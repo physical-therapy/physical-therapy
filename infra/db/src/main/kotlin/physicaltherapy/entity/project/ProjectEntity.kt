@@ -25,6 +25,9 @@ internal class ProjectEntity(
         @Column(name = "cycle", nullable = false)
         var cycle: Int,
 
+        @Column(name = "project_status", nullable = false)
+        var projectStatus: String,
+
         @Column(name = "start_date", nullable = false)
         val startDate: LocalDate,
 

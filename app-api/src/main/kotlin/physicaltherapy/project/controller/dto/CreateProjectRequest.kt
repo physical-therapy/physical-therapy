@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import physicaltherapy.project.Project
+import physicaltherapy.project.ProjectStatus
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -33,6 +34,7 @@ data class CreateProjectRequest(
             recruitmentEndDate = recruitmentEndDate,
             master = master,
             cycle = cycle,
+            projectStatus = ProjectStatus.RECRUITING,
             startDate = startDate,
             endDate = endDate,
         )
