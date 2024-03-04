@@ -11,3 +11,16 @@ dependencies {
     api ("com.squareup.retrofit2:retrofit:2.9.0")
     api ("com.squareup.retrofit2:converter-jackson:2.9.0")
 }
+
+// 참고: https://github.com/woowacourse-teams/2021-tyf/blob/develop/server/build.gradle
+val processResources = tasks.findByName("processResources")?.let {
+    println("processResources 실행")
+    it.dependsOn("copySecret")
+}
+
+task("copySecret", Copy::class) {
+    from("physical-therapy-secret/")
+    include("*.yml")
+//    into("src/main/resources") TODO: public으로 커밋될 수 있음.
+    into("build/resources/main")
+}

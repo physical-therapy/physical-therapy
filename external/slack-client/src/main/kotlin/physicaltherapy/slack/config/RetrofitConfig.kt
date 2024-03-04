@@ -1,5 +1,6 @@
 package physicaltherapy.slack.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.util.ResourceUtils.toURL
@@ -7,16 +8,15 @@ import physicaltherapy.slack.client.SlackApiClient
 import physicaltherapy.slack.util.RetrofitUtils.createRetrofit
 
 @Configuration
-class RetrofitConfig {
+class RetrofitConfig(
+    @Value("\${slack-api.base-url}")
+    private val baseUrl: String,
 
-    companion object {
-        const val BASE_URL = "https://slack.com/api/"
-        const val ACCESS_TOKEN = "xoxb-5695225179764-6182948355457-plRsmBbVhrowmViiulIPuWZW"
-    }
-
+    @Value("\${slack-api.access-token}")
+    private val accessToken: String,
+) {
     @Bean
-    fun slackApiClient(): SlackApiClient = toURL(BASE_URL)
-        .createRetrofit(ACCESS_TOKEN)
+    fun slackApiClient(): SlackApiClient = toURL(baseUrl)
+        .createRetrofit(accessToken)
         .create(SlackApiClient::class.java)
-
 }
