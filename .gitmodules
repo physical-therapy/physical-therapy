@@ -1,3 +1,4 @@
 [submodule "physical-therapy-secret"]
-	path = physical-therapy-secret
+	path = ./external/slack-client/physical-therapy-secret
 	url = https://github.com/physical-therapy/physical-therapy-secret.git
+	branch = main
